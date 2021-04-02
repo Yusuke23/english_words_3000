@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "95044884961",
+    "project_id": "english-words-3000-73a27",
+    "storage_bucket": "english-words-3000-73a27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95044884961:android:dd4672dd9ca1533dc71aa0",
+        "android_client_info": {
+          "package_name": "net.YusukeAsai.english_words_3000"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95044884961-24suoivi326jrbodp6c5hc0ojga7mpdp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZQSjpvsgU2R4Qe59KkiO9n7OWgEVDysM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95044884961-24suoivi326jrbodp6c5hc0ojga7mpdp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
