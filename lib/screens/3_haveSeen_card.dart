@@ -44,7 +44,7 @@ class _HaveSeenState extends State<HaveSeen> {
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0 || emptyCard == 'empty') {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForHaveSeen: FieldValue.arrayRemove([
@@ -101,7 +101,7 @@ class _HaveSeenState extends State<HaveSeen> {
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0 || emptyCard == 'empty') {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForHaveSeen: FieldValue.arrayRemove([
@@ -152,13 +152,12 @@ class _HaveSeenState extends State<HaveSeen> {
       //カードの中身がラスト１単語の場合使用される
       else if (indexNumber == dataLength - 1) {
         indexNumber = 0;
-        emptyCard = 'empty';
       }
       _setPrefItems(); // Shared Preferenceに値を保存する。
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0) {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForHaveSeen: FieldValue.arrayRemove([
@@ -215,7 +214,7 @@ class _HaveSeenState extends State<HaveSeen> {
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0 || emptyCard == 'empty') {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForHaveSeen: FieldValue.arrayRemove([

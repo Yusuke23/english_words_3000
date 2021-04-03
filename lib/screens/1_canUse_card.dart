@@ -38,13 +38,12 @@ class _CanUseState extends State<CanUse> {
       //カードの中身がラスト１単語の場合使用される
       else if (indexNumber == dataLength - 1) {
         indexNumber = 0;
-        emptyCard = 'empty';
       }
       _setPrefItems(); // Shared Preferenceに値を保存する。
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0) {
       //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanUse: FieldValue.arrayRemove([
@@ -101,7 +100,7 @@ class _CanUseState extends State<CanUse> {
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0 || emptyCard == 'empty') {
       //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanUse: FieldValue.arrayRemove([
@@ -158,7 +157,7 @@ class _CanUseState extends State<CanUse> {
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0 || emptyCard == 'empty') {
       //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanUse: FieldValue.arrayRemove([
@@ -215,7 +214,7 @@ class _CanUseState extends State<CanUse> {
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 && emptyCard == 'empty') {
+    if (indexNumber == 0 || emptyCard == 'empty') {
       //deletes処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanUse: FieldValue.arrayRemove([
