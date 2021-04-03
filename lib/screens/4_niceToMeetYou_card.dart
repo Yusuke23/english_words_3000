@@ -28,55 +28,23 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   dynamic user;
   String userEmail;
 
-  // LoadボタンがおされたらFirestoreの値を取得
-  void load() async {
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    await _firestore
-        .collection(collectionID)
-        .doc(userEmail)
-        .get()
-        .then((DocumentSnapshot ds) {
-      if (mounted && ds.exists) {
-        setState(() {
-          data = ds[iDForNiceToMeetYou];
-        });
-      }
-    });
-  }
-
-  void loadDataLength() async {
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    await _firestore
-        .collection(collectionID)
-        .doc(userEmail)
-        .get()
-        .then((DocumentSnapshot ds) {
-      if (mounted && ds.exists) {
-        setState(() {
-          dataLength = ds[iDForNiceToMeetYou].length;
-        });
-      }
-    });
-  }
-
   void _incrementCounterForCanUse() async {
     setState(() {
-      if (indexNumber < dataLength - 1) {
+      if (indexNumber < dataLength &&
+          indexNumber != dataLength - 1 &&
+          emptyCard != 'empty') {
         indexNumber++;
       }
       //カードの中身がラスト１単語の場合使用される
-      else if (dataLength == 1) {
-        emptyCard = 'empty';
-      } else {
+      else if (indexNumber == dataLength - 1) {
         indexNumber = 0;
+        emptyCard = 'empty';
       }
       _setPrefItems(); // Shared Preferenceに値を保存する。
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 || emptyCard == 'empty') {
+    if (indexNumber == 0 && emptyCard == 'empty') {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
@@ -119,20 +87,21 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
 
   void _incrementCounterForCanRead() async {
     setState(() {
-      if (indexNumber < dataLength - 1) {
+      if (indexNumber < dataLength &&
+          indexNumber != dataLength - 1 &&
+          emptyCard != 'empty') {
         indexNumber++;
       }
       //カードの中身がラスト１単語の場合使用される
-      else if (dataLength == 1) {
-        emptyCard = 'empty';
-      } else {
+      else if (indexNumber == dataLength - 1) {
         indexNumber = 0;
+        emptyCard = 'empty';
       }
       _setPrefItems(); // Shared Preferenceに値を保存する。
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 || emptyCard == 'empty') {
+    if (indexNumber == 0 && emptyCard == 'empty') {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
@@ -175,20 +144,21 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
 
   void _incrementCounterForHaveSeen() async {
     setState(() {
-      if (indexNumber < dataLength - 1) {
+      if (indexNumber < dataLength &&
+          indexNumber != dataLength - 1 &&
+          emptyCard != 'empty') {
         indexNumber++;
       }
       //カードの中身がラスト１単語の場合使用される
-      else if (dataLength == 1) {
-        emptyCard = 'empty';
-      } else {
+      else if (indexNumber == dataLength - 1) {
         indexNumber = 0;
+        emptyCard = 'empty';
       }
       _setPrefItems(); // Shared Preferenceに値を保存する。
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 || emptyCard == 'empty') {
+    if (indexNumber == 0 && emptyCard == 'empty') {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
@@ -231,20 +201,21 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
 
   void _incrementCounterForNiceToMeetYou() async {
     setState(() {
-      if (indexNumber < dataLength - 1) {
+      if (indexNumber < dataLength &&
+          indexNumber != dataLength - 1 &&
+          emptyCard != 'empty') {
         indexNumber++;
       }
       //カードの中身がラスト１単語の場合使用される
-      else if (dataLength == 1) {
-        emptyCard = 'empty';
-      } else {
+      else if (indexNumber == dataLength - 1) {
         indexNumber = 0;
+        emptyCard = 'empty';
       }
       _setPrefItems(); // Shared Preferenceに値を保存する。
     });
     user = _auth.currentUser;
     userEmail = await user.email;
-    if (indexNumber == 0 || emptyCard == 'empty') {
+    if (indexNumber == 0 && emptyCard == 'empty') {
       //delete
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
@@ -303,6 +274,39 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
     prefs.setInt('counterForNiceToMeetYou', indexNumber);
   }
 
+  // LoadボタンがおされたらFirestoreの値を取得
+  void load() async {
+    user = _auth.currentUser;
+    userEmail = await user.email;
+    await _firestore
+        .collection(collectionID)
+        .doc(userEmail)
+        .get()
+        .then((DocumentSnapshot ds) {
+      if (mounted && ds.exists) {
+        setState(() {
+          data = ds[iDForNiceToMeetYou];
+        });
+      }
+    });
+  }
+
+  void loadDataLength() async {
+    user = _auth.currentUser;
+    userEmail = await user.email;
+    await _firestore
+        .collection(collectionID)
+        .doc(userEmail)
+        .get()
+        .then((DocumentSnapshot ds) {
+      if (mounted && ds.exists) {
+        setState(() {
+          dataLength = ds[iDForNiceToMeetYou].length;
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -351,7 +355,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                               ),
                             )
                           //カードの中身がラスト１単語の場合使用される
-                          : (emptyCard == 'empty')
+                          : (indexNumber == 0 && emptyCard == 'empty')
                               ? Center(
                                   child: Text(
                                     '空',
@@ -361,72 +365,38 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                                     ),
                                   ),
                                 )
-                              //todo 直す　The method '-' was called on null. Receiver: null Tried calling: -(1)
-                              : (indexNumber > dataLength - 1)
-                                  ? Column(children: <Widget>[
-                                      Expanded(
-                                        child: Center(
-                                          child: SizedBox(),
+                              : Column(children: <Widget>[
+                                  Expanded(
+                                    child: Center(
+                                      child: SizedBox(),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        '${data[indexNumber][valueOfWord]}',
+                                        style: TextStyle(
+                                          fontSize: 30.0,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            '${data[indexNumber = 0][valueOfWord]}',
-                                            style: TextStyle(
-                                              fontSize: 30.0,
-                                            ),
-                                          ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        '(${data[indexNumber][valueOfWordClass]})',
+                                        style: TextStyle(
+                                          fontSize: 20.0,
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            '(${data[indexNumber = 0][valueOfWordClass]})',
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: SizedBox(),
-                                        ),
-                                      ),
-                                    ])
-                                  : Column(children: <Widget>[
-                                      Expanded(
-                                        child: Center(
-                                          child: SizedBox(),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            '${data[indexNumber][valueOfWord]}',
-                                            style: TextStyle(
-                                              fontSize: 30.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: Text(
-                                            '(${data[indexNumber][valueOfWordClass]})',
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Center(
-                                          child: SizedBox(),
-                                        ),
-                                      ),
-                                    ]),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Center(
+                                      child: SizedBox(),
+                                    ),
+                                  ),
+                                ]),
                     ),
                   ),
                 ),
