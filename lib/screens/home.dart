@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '0.dart';
-import '1.dart';
-import '2.dart';
-import '3.dart';
-import '4.dart';
+import '0_top_card.dart';
+import '1_canUse_card.dart';
+import '2_canRead_card.dart';
+import '3_haveSeen_card.dart';
+import '4_niceToMeetYou_card.dart';
 
 class Home extends StatefulWidget {
   static const id = 'home';

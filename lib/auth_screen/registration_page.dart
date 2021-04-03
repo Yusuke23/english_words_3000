@@ -35,7 +35,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
-                    child: Image.asset('images/bts_membersのコピー8.jpeg'),
+                    child: Image.asset('images/icons8backpack1.png'),
                   ),
                 ),
               ),
