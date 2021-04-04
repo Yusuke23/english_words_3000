@@ -45,7 +45,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
     user = _auth.currentUser;
     userEmail = await user.email;
     if (indexNumber == 0 || emptyCard == 'empty') {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -54,7 +54,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanUse: FieldValue.arrayUnion([
           {
@@ -64,7 +64,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
         ]),
       });
     } else {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -73,7 +73,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanUse: FieldValue.arrayUnion([
           {
@@ -102,7 +102,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
     user = _auth.currentUser;
     userEmail = await user.email;
     if (indexNumber == 0 || emptyCard == 'empty') {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -111,7 +111,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanRead: FieldValue.arrayUnion([
           {
@@ -121,7 +121,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
         ]),
       });
     } else {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -130,7 +130,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForCanRead: FieldValue.arrayUnion([
           {
@@ -159,7 +159,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
     user = _auth.currentUser;
     userEmail = await user.email;
     if (indexNumber == 0 || emptyCard == 'empty') {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -168,7 +168,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForHaveSeen: FieldValue.arrayUnion([
           {
@@ -178,7 +178,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
         ]),
       });
     } else {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -187,7 +187,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForHaveSeen: FieldValue.arrayUnion([
           {
@@ -215,7 +215,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
     user = _auth.currentUser;
     userEmail = await user.email;
     if (indexNumber == 0) {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -224,7 +224,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayUnion([
           {
@@ -234,7 +234,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
         ]),
       });
     } else {
-      //delete
+      //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
           {
@@ -243,7 +243,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
           },
         ]),
       });
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
+      // 要素追加 ※arrayの中がMAP型
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayUnion([
           {
@@ -255,10 +255,10 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
     }
   }
 
-  // Shared Preferenceに値を保存されているデータを読み込んで_counterにセットする。
+  // Shared Preferenceに保存されているデータ(値)を読み込んで_counterにセットする。
   _getPrefItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // 以下の「counter」がキー名。見つからなければ０を返す
+    // 以下の「counterForNiceToMeetYou」がキー名。見つからなければ０を返す
     if (mounted) {
       setState(() {
         indexNumber = prefs.getInt('counterForNiceToMeetYou') ?? 0;
@@ -269,11 +269,11 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   // Shared Preferenceにデータを書き込む
   _setPrefItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // 以下の「counter」がキー名。
+    // 以下の「counterForNiceToMeetYou」がキー名。
     prefs.setInt('counterForNiceToMeetYou', indexNumber);
   }
 
-  // LoadボタンがおされたらFirestoreの値を取得
+  // Firestoreの値を取得
   void load() async {
     user = _auth.currentUser;
     userEmail = await user.email;
@@ -309,8 +309,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   @override
   void initState() {
     super.initState();
-    // 初期化時にShared Preferencesに保存している値を読み込む
-    _getPrefItems();
+    _getPrefItems(); // 初期化時にShared Preferencesに保存している値を読み込む
     load();
     loadDataLength();
   }
