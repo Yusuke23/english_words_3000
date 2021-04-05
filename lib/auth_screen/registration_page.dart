@@ -37,7 +37,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     height: 200.0,
                     child: Image.asset(
                       'images/icons8backpack2.png',
-                      scale: 0.5,
+                      scale: 0.7,
                     ),
                   ),
                 ),

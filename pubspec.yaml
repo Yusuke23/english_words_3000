@@ -29,9 +29,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   http: ^0.13.0
+
   # アプリを閉じて、再起動しても前回の続きの単語が表示される。
   shared_preferences: ^2.0.5
-  # スピナー
+
+  # ファイアーベースからデータを取得している間に表示されるスピナー
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
 
   # FlutterFire

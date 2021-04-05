@@ -13,11 +13,29 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
   bool showSpinner = false;
   final _auth = FirebaseAuth.instance;
   String email;
   String password;
+
+  AnimationController controller;
+  Animation animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+    animation = CurvedAnimation(parent: controller, curve: Curves.bounceOut);
+    controller.forward();
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +53,18 @@ class _LoginPageState extends State<LoginPage> {
                 child: Hero(
                   tag: 'logo',
                   child: Container(
-                    height: 200.0,
+                    height: 100.0,
                     child: Image.asset('images/icons8backpack2.png'),
                   ),
+                ),
+              ),
+              Center(
+                child: Text(
+                  'English Words 3000',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: animation.value * 35,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
               SizedBox(
