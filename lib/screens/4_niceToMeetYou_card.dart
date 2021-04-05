@@ -353,7 +353,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                               ),
                             )
                           //カードの中身がラスト１単語の場合使用される
-                          : (indexNumber == 0 && emptyCard == 'empty')
+                          : indexNumber == 0 && emptyCard == 'empty'
                               ? Center(
                                   child: Text(
                                     '空',

@@ -29,9 +29,10 @@ class _TopState extends State<Top> {
 
   void _incrementCounterForCanUse() async {
     setState(() {
-      indexNumber++;
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-      //todo 最後の単語の次は'終わり'を表示する。
+      if (indexNumber < word.length) {
+        indexNumber++;
+        _setPrefItems(); // Shared Preferenceに値を保存する。
+      }
     });
     user = _auth.currentUser;
     userEmail = await user.email;
@@ -59,9 +60,10 @@ class _TopState extends State<Top> {
 
   void _incrementCounterForCanRead() async {
     setState(() {
-      indexNumber++;
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-      //todo 最後の単語の次は'終わり'を表示する。
+      if (indexNumber < word.length) {
+        indexNumber++;
+        _setPrefItems(); // Shared Preferenceに値を保存する。
+      }
     });
     user = _auth.currentUser;
     userEmail = await user.email;
@@ -89,9 +91,10 @@ class _TopState extends State<Top> {
 
   void _incrementCounterForHaveSeen() async {
     setState(() {
-      indexNumber++;
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-      //todo 最後の単語の次は'終わり'を表示する。
+      if (indexNumber < word.length) {
+        indexNumber++;
+        _setPrefItems(); // Shared Preferenceに値を保存する。
+      }
     });
     user = _auth.currentUser;
     userEmail = await user.email;
@@ -119,9 +122,10 @@ class _TopState extends State<Top> {
 
   void _incrementCounterForNiceToMeetYou() async {
     setState(() {
-      indexNumber++;
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-      //todo 最後の単語の次は'終わり'を表示する。
+      if (indexNumber < word.length) {
+        indexNumber++;
+        _setPrefItems(); // Shared Preferenceに値を保存する。
+      }
     });
     user = _auth.currentUser;
     userEmail = await user.email;
@@ -210,48 +214,58 @@ class _TopState extends State<Top> {
                       });
                     },
                     child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: word.isEmpty
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : Column(children: <Widget>[
-                              Expanded(
-                                child: Center(
-                                  child: SizedBox(),
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Text(
-                                    '${word[indexNumber][valueOfWord]}',
-                                    style: TextStyle(
-                                      fontSize: 30.0,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: word.isEmpty
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : indexNumber < word.length
+                                ? Column(children: <Widget>[
+                                    Expanded(
+                                      child: Center(
+                                        child: SizedBox(),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: Text(
-                                    '(${word[indexNumber][valueOfWordClass]})',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          '${word[indexNumber][valueOfWord]}',
+                                          style: TextStyle(
+                                            fontSize: 30.0,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Center(
-                                  child: SizedBox(),
-                                ),
-                              ),
-                            ]),
-                      //todo 最後の単語の次は'終わり'を表示する。
-                    ),
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          '(${word[indexNumber][valueOfWordClass]})',
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Center(
+                                        child: SizedBox(),
+                                      ),
+                                    ),
+                                  ])
+                                : Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        '達成！！！！',
+                                        style: TextStyle(
+                                          fontSize: 30.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  )),
                   ),
                 ),
               ),
