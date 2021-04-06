@@ -111,12 +111,30 @@ class _LoginPageState extends State<LoginPage>
                       showSpinner = false;
                     });
                   } catch (e) {
-                    print(e);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Error'),
+                            content: Text('メールアドレスかパスワードが正しくありません。'),
+                            actions: [
+                              TextButton(
+                                child: Text('Ok'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                },
+                              )
+                            ],
+                          );
+                        });
                   }
                 },
               ),
               RoundedButton(
-                  title: 'go to register page',
+                  title: 'Move To Register Page',
                   color: Colors.blueAccent,
                   onPressed: () {
                     Navigator.pushNamed(context, RegistrationPage.id);
