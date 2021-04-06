@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -21,49 +20,18 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   String iDForCanRead = 'canRead';
   String iDForHaveSeen = 'haveSeen';
   String iDForNiceToMeetYou = 'niceToMeetYou';
-  //カードの中身がラスト１単語の場合使用される
-  String emptyCard;
   //ユーザーのemail取得
   final _auth = FirebaseAuth.instance;
   dynamic user;
   String userEmail;
 
   void _incrementCounterForCanUse() async {
-    setState(() {
-      if (indexNumber < dataLength &&
-          indexNumber != dataLength - 1 &&
-          emptyCard != 'empty') {
+    if (indexNumber < dataLength) {
+      setState(() {
         indexNumber++;
-      }
-      //カードの中身がラスト１単語の場合使用される
-      else if (indexNumber == dataLength - 1) {
-        indexNumber = 0;
-        emptyCard = 'empty';
-      }
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-    });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 0 || emptyCard == 'empty') {
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayRemove([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
       });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanUse: FieldValue.arrayUnion([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
+      user = _auth.currentUser;
+      userEmail = await user.email;
       //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
@@ -86,41 +54,12 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   }
 
   void _incrementCounterForCanRead() async {
-    setState(() {
-      if (indexNumber < dataLength &&
-          indexNumber != dataLength - 1 &&
-          emptyCard != 'empty') {
+    if (indexNumber < dataLength) {
+      setState(() {
         indexNumber++;
-      }
-      //カードの中身がラスト１単語の場合使用される
-      else if (indexNumber == dataLength - 1) {
-        indexNumber = 0;
-        emptyCard = 'empty';
-      }
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-    });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 0 || emptyCard == 'empty') {
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayRemove([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
       });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanRead: FieldValue.arrayUnion([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
+      user = _auth.currentUser;
+      userEmail = await user.email;
       //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
@@ -143,41 +82,12 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   }
 
   void _incrementCounterForHaveSeen() async {
-    setState(() {
-      if (indexNumber < dataLength &&
-          indexNumber != dataLength - 1 &&
-          emptyCard != 'empty') {
+    if (indexNumber < dataLength) {
+      setState(() {
         indexNumber++;
-      }
-      //カードの中身がラスト１単語の場合使用される
-      else if (indexNumber == dataLength - 1) {
-        indexNumber = 0;
-        emptyCard = 'empty';
-      }
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-    });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 0 || emptyCard == 'empty') {
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayRemove([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
       });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForHaveSeen: FieldValue.arrayUnion([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
+      user = _auth.currentUser;
+      userEmail = await user.email;
       //delete処理
       await _firestore.collection(collectionID).doc(userEmail).update({
         iDForNiceToMeetYou: FieldValue.arrayRemove([
@@ -200,77 +110,31 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   }
 
   void _incrementCounterForNiceToMeetYou() async {
-    setState(() {
-      if (indexNumber < dataLength &&
-          indexNumber != dataLength - 1 &&
-          emptyCard != 'empty') {
-        indexNumber++;
-      }
-      //カードの中身がラスト１単語の場合使用される
-      else if (indexNumber == dataLength - 1) {
-        indexNumber = 0;
-      }
-      _setPrefItems(); // Shared Preferenceに値を保存する。
-    });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 0) {
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayRemove([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayUnion([
-          {
-            'word': '${data[dataLength - 1][valueOfWord]}',
-            'wordClass': '${data[dataLength - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayRemove([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayUnion([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
-  }
-
-  // Shared Preferenceに保存されているデータ(値)を読み込んで_counterにセットする。
-  _getPrefItems() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // 以下の「counterForNiceToMeetYou」がキー名。見つからなければ０を返す
-    if (mounted) {
+    if (indexNumber < dataLength) {
       setState(() {
-        indexNumber = prefs.getInt('counterForNiceToMeetYou') ?? 0;
+        indexNumber++;
+      });
+      user = _auth.currentUser;
+      userEmail = await user.email;
+      //delete処理
+      await _firestore.collection(collectionID).doc(userEmail).update({
+        iDForNiceToMeetYou: FieldValue.arrayRemove([
+          {
+            'word': '${data[indexNumber - 1][valueOfWord]}',
+            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
+          },
+        ]),
+      });
+      // 要素追加 ※arrayの中がMAP型
+      await _firestore.collection(collectionID).doc(userEmail).update({
+        iDForNiceToMeetYou: FieldValue.arrayUnion([
+          {
+            'word': '${data[indexNumber - 1][valueOfWord]}',
+            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
+          },
+        ]),
       });
     }
-  }
-
-  // Shared Preferenceにデータを書き込む
-  _setPrefItems() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // 以下の「counterForNiceToMeetYou」がキー名。
-    prefs.setInt('counterForNiceToMeetYou', indexNumber);
   }
 
   // Firestoreの値を取得
@@ -309,7 +173,6 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
   @override
   void initState() {
     super.initState();
-    _getPrefItems(); // 初期化時にShared Preferencesに保存している値を読み込む
     load();
     loadDataLength();
   }
@@ -334,68 +197,67 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        //タップすると日本語訳が表示される
+                        //todo タップすると日本語訳が表示される
                       });
                     },
                     child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue),
-                      ),
-                      child: data.isEmpty
-                          ? Center(
-                              child: Text(
-                                '空',
-                                style: TextStyle(
-                                  fontSize: 50,
-                                  fontWeight: FontWeight.bold,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue),
+                        ),
+                        child: data.isEmpty
+                            ? Center(
+                                child: Text(
+                                  '空',
+                                  style: TextStyle(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            )
-                          //カードの中身がラスト１単語の場合使用される
-                          : indexNumber == 0 && emptyCard == 'empty'
-                              ? Center(
-                                  child: Text(
-                                    '空',
-                                    style: TextStyle(
-                                      fontSize: 50,
-                                      fontWeight: FontWeight.bold,
+                              )
+                            : indexNumber < dataLength
+                                ? Column(children: <Widget>[
+                                    Expanded(
+                                      child: Center(
+                                        child: SizedBox(),
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : Column(children: <Widget>[
-                                  Expanded(
-                                    child: Center(
-                                      child: SizedBox(),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        '${data[indexNumber][valueOfWord]}',
-                                        style: TextStyle(
-                                          fontSize: 30.0,
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          '${data[indexNumber][valueOfWord]}',
+                                          style: TextStyle(
+                                            fontSize: 30.0,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        '(${data[indexNumber][valueOfWordClass]})',
-                                        style: TextStyle(
-                                          fontSize: 20.0,
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          '(${data[indexNumber][valueOfWordClass]})',
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: SizedBox(),
+                                    Expanded(
+                                      child: Center(
+                                        child: SizedBox(),
+                                      ),
                                     ),
-                                  ),
-                                ]),
-                    ),
+                                  ])
+                                //カードを振り分け終えると表示される
+                                : Center(
+                                    child: Text(
+                                      '空',
+                                      style: TextStyle(
+                                        fontSize: 50,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )),
                   ),
                 ),
               ),
