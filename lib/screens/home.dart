@@ -44,7 +44,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       body: PageView(
           controller: _pageController,
           // ページ切り替え時に実行する処理
-          // PageViewのonPageChangedはページインデックスを受け取る
           // 以下ではページインデックスをindexとする
           onPageChanged: (index) {
             setState(() {
@@ -52,7 +51,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               _screen = index;
             });
           },
-          // ページ下部のナビゲーションメニューに相当する各ページビュー。後述
+          // ページ下部のナビゲーションメニューに相当する各ページビュー。
           children: [
             Top(),
             CanUse(),
@@ -75,9 +74,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             // ページインデックスを更新
             _screen = index;
 
-            // ページ遷移を定義。
-            // curveで指定できるのは以下
-            // https://api.flutter.dev/flutter/animation/Curves-class.html
             _pageController.animateToPage(index,
                 duration: Duration(milliseconds: 300), curve: Curves.easeOut);
           });

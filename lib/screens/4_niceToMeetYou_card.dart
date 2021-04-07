@@ -292,7 +292,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                             ),
                             child: Center(
                               child: Text(
-                                '見たこ',
+                                '見たことある',
                               ),
                             ),
                           ),

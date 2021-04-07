@@ -301,7 +301,7 @@ class _TopState extends State<Top> {
                             ),
                             child: Center(
                               child: Text(
-                                '見たこ',
+                                '見たことある',
                               ),
                             ),
                           ),

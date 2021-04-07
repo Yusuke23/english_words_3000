@@ -292,7 +292,7 @@ class _CanReadState extends State<CanRead> {
                             ),
                             child: Center(
                               child: Text(
-                                '見たこ',
+                                '見たことある',
                               ),
                             ),
                           ),
