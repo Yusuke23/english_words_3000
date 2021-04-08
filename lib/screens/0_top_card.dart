@@ -27,6 +27,7 @@ class _TopState extends State<Top> {
   dynamic user;
   String userEmail;
 
+  //'使える'単語として割り振る
   void _incrementCounterForCanUse() async {
     setState(() {
       if (indexNumber < word.length) {
@@ -58,6 +59,7 @@ class _TopState extends State<Top> {
     }
   }
 
+  //'読める'単語として割り振る
   void _incrementCounterForCanRead() async {
     setState(() {
       if (indexNumber < word.length) {
@@ -89,6 +91,7 @@ class _TopState extends State<Top> {
     }
   }
 
+//'見たことある'単語として割り振る
   void _incrementCounterForHaveSeen() async {
     setState(() {
       if (indexNumber < word.length) {
@@ -120,6 +123,7 @@ class _TopState extends State<Top> {
     }
   }
 
+  //'初めて見た'単語として割り振る
   void _incrementCounterForNiceToMeetYou() async {
     setState(() {
       if (indexNumber < word.length) {
