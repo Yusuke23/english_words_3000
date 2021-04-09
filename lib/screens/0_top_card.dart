@@ -32,7 +32,7 @@ class _TopState extends State<Top> {
     setState(() {
       if (indexNumber < word.length) {
         indexNumber++;
-        _setPrefItems(); // Shared Preferenceに値を保存する。
+        _setPrefItems(); //Shared Preferenceに値を保存する。
       }
     });
     user = _auth.currentUser;
