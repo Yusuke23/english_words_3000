@@ -1,17 +1,5 @@
 # english_words_3000
 
-A new Flutter application.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# english_words_3000
+<img src="https://user-images.githubusercontent.com/79197092/122663193-9bf8a380-d1d3-11eb-8615-5c900074860f.png" width="320" height="480">
+<img src="https://user-images.githubusercontent.com/79197092/122663211-b7fc4500-d1d3-11eb-9101-7465d8fecb45.png" width="320" height="480">
+<img src="https://user-images.githubusercontent.com/79197092/122663212-bdf22600-d1d3-11eb-96d5-a33eba8e8c4c.png" width="320" height="480">
