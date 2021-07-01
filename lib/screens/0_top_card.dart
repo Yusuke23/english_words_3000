@@ -1,9 +1,10 @@
+import 'package:english_words_3000/services/firestorage_helper.dart';
+import 'package:english_words_3000/utilities/strings.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Top extends StatefulWidget {
   @override
@@ -13,146 +14,20 @@ class Top extends StatefulWidget {
 class _TopState extends State<Top> {
   List<dynamic> word = [];
   int indexNumber = 0;
-  //FirebaseFirestore ID 各種
-  String collectionID = 'dictionary';
-  String iDForCanUse = 'canUse';
-  String iDForCanRead = 'canRead';
-  String iDForHaveSeen = 'haveSeen';
-  String iDForNiceToMeetYou = 'niceToMeetYou';
-  String valueOfWord = 'word';
-  String valueOfWordClass = 'wordClass';
   final _firestore = FirebaseFirestore.instance; //firestoreに単語を加える.
   //ユーザーのemail取得
-  final _auth = FirebaseAuth.instance;
   dynamic user;
   String userEmail;
 
-  //'使える'単語として割り振る
-  void _incrementCounterForCanUse() async {
+  //単語を各Fieldに割り振る
+  void _incrementCounter(String value) async {
     setState(() {
       if (indexNumber < word.length) {
         indexNumber++;
         _setPrefItems(); //Shared Preferenceに値を保存する。
       }
     });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 1) {
-      await _firestore.collection(collectionID).doc(userEmail).set({
-        iDForCanUse: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanUse: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
-  }
-
-  //'読める'単語として割り振る
-  void _incrementCounterForCanRead() async {
-    setState(() {
-      if (indexNumber < word.length) {
-        indexNumber++;
-        _setPrefItems(); // Shared Preferenceに値を保存する。
-      }
-    });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 1) {
-      await _firestore.collection(collectionID).doc(userEmail).set({
-        iDForCanRead: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanRead: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
-  }
-
-//'見たことある'単語として割り振る
-  void _incrementCounterForHaveSeen() async {
-    setState(() {
-      if (indexNumber < word.length) {
-        indexNumber++;
-        _setPrefItems(); // Shared Preferenceに値を保存する。
-      }
-    });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 1) {
-      await _firestore.collection(collectionID).doc(userEmail).set({
-        iDForHaveSeen: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForHaveSeen: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
-  }
-
-  //'初めて見た'単語として割り振る
-  void _incrementCounterForNiceToMeetYou() async {
-    setState(() {
-      if (indexNumber < word.length) {
-        indexNumber++;
-        _setPrefItems(); // Shared Preferenceに値を保存する。
-      }
-    });
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    if (indexNumber == 1) {
-      await _firestore.collection(collectionID).doc(userEmail).set({
-        iDForNiceToMeetYou: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    } else {
-      // arrayUnionを使った更新（要素追加） ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayUnion([
-          {
-            'word': '${word[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
+    FirebaseStorage().addWordData(value, word, indexNumber);
   }
 
   // Shared Preferenceに値を保存されているデータを読み込んで_counterにセットする。
@@ -236,7 +111,7 @@ class _TopState extends State<Top> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '${word[indexNumber][valueOfWord]}',
+                                          '${word[indexNumber][Strings.valueOfWord]}',
                                           style: TextStyle(
                                             fontSize: 30.0,
                                           ),
@@ -246,7 +121,7 @@ class _TopState extends State<Top> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '(${word[indexNumber][valueOfWordClass]})',
+                                          '(${word[indexNumber][Strings.valueOfWordClass]})',
                                           style: TextStyle(
                                             fontSize: 20.0,
                                           ),
@@ -279,7 +154,7 @@ class _TopState extends State<Top> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: _incrementCounterForCanUse,
+                          onTap: () => _incrementCounter(Strings.iDForCanUse),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -297,8 +172,8 @@ class _TopState extends State<Top> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap:
-                              _incrementCounterForHaveSeen, //カウントアップ + firestoreに表示されているカードの単語加える
+                          onTap: () => _incrementCounter(Strings
+                              .iDForHaveSeen), //カウントアップ + firestoreに表示されているカードの単語加える
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.yellow),
@@ -321,7 +196,7 @@ class _TopState extends State<Top> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: _incrementCounterForCanRead,
+                          onTap: () => _incrementCounter(Strings.iDForCanRead),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -339,7 +214,8 @@ class _TopState extends State<Top> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: _incrementCounterForNiceToMeetYou,
+                          onTap: () =>
+                              _incrementCounter(Strings.iDForNiceToMeetYou),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.blue),

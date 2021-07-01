@@ -1,3 +1,6 @@
+import 'package:english_words_3000/screens/base_card.dart';
+import 'package:english_words_3000/services/firestore_helper.dart';
+import 'package:english_words_3000/utilities/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,134 +14,20 @@ class _CanUseState extends State<CanUse> {
   List data = [];
   int dataLength; //fieldValue length
   int indexNumber = 0;
-  //FirebaseFirestore ID 各種
-  String collectionID = 'dictionary';
-  String valueOfWord = 'word';
-  String valueOfWordClass = 'wordClass';
   final _firestore = FirebaseFirestore.instance; //firestoreに単語を加える.
-  String iDForCanUse = 'canUse';
-  String iDForCanRead = 'canRead';
-  String iDForHaveSeen = 'haveSeen';
-  String iDForNiceToMeetYou = 'niceToMeetYou';
   //ユーザーのemail取得
   final _auth = FirebaseAuth.instance;
   dynamic user;
   String userEmail;
 
-  //'使える'単語として割り振る
-  void _incrementCounterForCanUse() async {
+  //表示する単語を指示 & アップデート
+  void _incrementCounter(String valueRemove, String valueUnion) async {
     if (indexNumber < dataLength) {
       setState(() {
         indexNumber++;
       });
-      user = _auth.currentUser;
-      userEmail = await user.email;
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanUse: FieldValue.arrayRemove([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanUse: FieldValue.arrayUnion([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
     }
-  }
-
-  //'読める'単語として割り振る
-  void _incrementCounterForCanRead() async {
-    if (indexNumber < dataLength) {
-      setState(() {
-        indexNumber++;
-      });
-      user = _auth.currentUser;
-      userEmail = await user.email;
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanUse: FieldValue.arrayRemove([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanRead: FieldValue.arrayUnion([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
-  }
-
-  //'見たことある'単語として割り振る
-  void _incrementCounterForHaveSeen() async {
-    if (indexNumber < dataLength) {
-      setState(() {
-        indexNumber++;
-      });
-      user = _auth.currentUser;
-      userEmail = await user.email;
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanUse: FieldValue.arrayRemove([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForHaveSeen: FieldValue.arrayUnion([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
-  }
-
-  //'初めて見た'単語として割り振る
-  void _incrementCounterForNiceToMeetYou() async {
-    if (indexNumber < dataLength) {
-      setState(() {
-        indexNumber++;
-      });
-      user = _auth.currentUser;
-      userEmail = await user.email;
-      //delete処理
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForCanUse: FieldValue.arrayRemove([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-      // 要素追加 ※arrayの中がMAP型
-      await _firestore.collection(collectionID).doc(userEmail).update({
-        iDForNiceToMeetYou: FieldValue.arrayUnion([
-          {
-            'word': '${data[indexNumber - 1][valueOfWord]}',
-            'wordClass': '${data[indexNumber - 1][valueOfWordClass]}',
-          },
-        ]),
-      });
-    }
+    Firestore().updateWordData(valueRemove, valueUnion, data, indexNumber);
   }
 
   // Firestoreの値を取得
@@ -146,13 +35,13 @@ class _CanUseState extends State<CanUse> {
     user = _auth.currentUser;
     userEmail = await user.email;
     await _firestore
-        .collection(collectionID)
+        .collection(Strings.collectionID)
         .doc(userEmail)
         .get()
         .then((DocumentSnapshot ds) {
       if (mounted && ds.exists) {
         setState(() {
-          data = ds[iDForCanUse];
+          data = ds[Strings.iDForCanUse];
         });
       }
     });
@@ -162,13 +51,13 @@ class _CanUseState extends State<CanUse> {
     user = _auth.currentUser;
     userEmail = await user.email;
     await _firestore
-        .collection(collectionID)
+        .collection(Strings.collectionID)
         .doc(userEmail)
         .get()
         .then((DocumentSnapshot ds) {
       if (mounted && ds.exists) {
         setState(() {
-          dataLength = ds[iDForCanUse].length;
+          dataLength = ds[Strings.iDForCanUse].length;
         });
       }
     });
@@ -183,7 +72,7 @@ class _CanUseState extends State<CanUse> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BaseCard();Scaffold(
       body: Container(
         padding: EdgeInsets.only(
           left: 50,
@@ -229,7 +118,7 @@ class _CanUseState extends State<CanUse> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '${data[indexNumber][valueOfWord]}',
+                                          '${data[indexNumber][Strings.valueOfWord]}',
                                           style: TextStyle(
                                             fontSize: 30.0,
                                           ),
@@ -239,7 +128,7 @@ class _CanUseState extends State<CanUse> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '(${data[indexNumber][valueOfWordClass]})',
+                                          '(${data[indexNumber][Strings.valueOfWordClass]})',
                                           style: TextStyle(
                                             fontSize: 20.0,
                                           ),
@@ -271,7 +160,8 @@ class _CanUseState extends State<CanUse> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: _incrementCounterForCanUse,
+                          onTap: () => _incrementCounter(
+                              Strings.iDForCanUse, Strings.iDForCanUse),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -289,7 +179,8 @@ class _CanUseState extends State<CanUse> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: _incrementCounterForHaveSeen,
+                          onTap: () => _incrementCounter(
+                              Strings.iDForCanUse, Strings.iDForHaveSeen),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.yellow),
@@ -312,7 +203,8 @@ class _CanUseState extends State<CanUse> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: _incrementCounterForCanRead,
+                          onTap: () => _incrementCounter(
+                              Strings.iDForCanUse, Strings.iDForCanRead),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -330,7 +222,8 @@ class _CanUseState extends State<CanUse> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: _incrementCounterForNiceToMeetYou,
+                          onTap: () => _incrementCounter(
+                              Strings.iDForCanUse, Strings.iDForNiceToMeetYou),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.blue),
