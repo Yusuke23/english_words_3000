@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage>
                 },
               ),
               RoundedButton(
-                  title: 'Move To Register Page',
+                  title: 'Register Page',
                   color: Colors.blueAccent,
                   onPressed: () {
                     Navigator.pushNamed(context, RegistrationPage.id);

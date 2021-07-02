@@ -1,72 +1,38 @@
 import 'package:english_words_3000/services/firestore_helper.dart';
 import 'package:english_words_3000/utilities/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class NiceToMeetYou extends StatefulWidget {
+class BaseCard extends StatefulWidget {
+  BaseCard(
+    this.data,
+    this.dataLength,
+    this.indexNumber,
+    this.valueRemove,
+  );
+
+  final List<dynamic> data;
+  final int dataLength;
+  int indexNumber;
+  final String valueRemove;
+
   @override
-  _NiceToMeetYouState createState() => _NiceToMeetYouState();
+  _BaseCardState createState() => _BaseCardState();
 }
 
-class _NiceToMeetYouState extends State<NiceToMeetYou> {
-  List data = [];
-  int dataLength; //fieldValue length
-  int indexNumber = 0;
-  final _firestore = FirebaseFirestore.instance; //firestoreに単語を加える.
+class _BaseCardState extends State<BaseCard> {
   //ユーザーのemail取得
-  final _auth = FirebaseAuth.instance;
   dynamic user;
   String userEmail;
 
   //表示する単語を指示 & アップデート
   void _incrementCounter(String valueRemove, String valueUnion) async {
-    if (indexNumber < dataLength) {
+    if (widget.indexNumber < widget.dataLength) {
       setState(() {
-        indexNumber++;
+        widget.indexNumber++;
       });
     }
-    Firestore().updateWordData(valueRemove, valueUnion, data, indexNumber);
-  }
-
-  // Firestoreの値を取得
-  void load() async {
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    await _firestore
-        .collection(Strings.collectionID)
-        .doc(userEmail)
-        .get()
-        .then((DocumentSnapshot ds) {
-      if (mounted && ds.exists) {
-        setState(() {
-          data = ds[Strings.iDForNiceToMeetYou];
-        });
-      }
-    });
-  }
-
-  void loadDataLength() async {
-    user = _auth.currentUser;
-    userEmail = await user.email;
-    await _firestore
-        .collection(Strings.collectionID)
-        .doc(userEmail)
-        .get()
-        .then((DocumentSnapshot ds) {
-      if (mounted && ds.exists) {
-        setState(() {
-          dataLength = ds[Strings.iDForNiceToMeetYou].length;
-        });
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    load();
-    loadDataLength();
+    Firestore().updateWordData(
+        valueRemove, valueUnion, widget.data, widget.indexNumber);
   }
 
   @override
@@ -95,9 +61,9 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                     child: Container(
                         height: 100,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue),
+                          border: Border.all(color: Colors.yellow),
                         ),
-                        child: data.isEmpty
+                        child: widget.data.isEmpty
                             ? Center(
                                 child: Text(
                                   '空',
@@ -107,7 +73,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                                   ),
                                 ),
                               )
-                            : indexNumber < dataLength
+                            : widget.indexNumber < widget.dataLength
                                 ? Column(children: <Widget>[
                                     Expanded(
                                       child: Center(
@@ -117,7 +83,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '${data[indexNumber][Strings.valueOfWord]}',
+                                          '${widget.data[widget.indexNumber][Strings.valueOfWord]}',
                                           style: TextStyle(
                                             fontSize: 30.0,
                                           ),
@@ -127,7 +93,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '(${data[indexNumber][Strings.valueOfWordClass]})',
+                                          '(${widget.data[widget.indexNumber][Strings.valueOfWordClass]})',
                                           style: TextStyle(
                                             fontSize: 20.0,
                                           ),
@@ -160,7 +126,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                       child: Card(
                         child: InkWell(
                           onTap: () => _incrementCounter(
-                              Strings.iDForNiceToMeetYou, Strings.iDForCanUse),
+                              widget.valueRemove, Strings.iDForCanUse),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -179,8 +145,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                       child: Card(
                         child: InkWell(
                           onTap: () => _incrementCounter(
-                              Strings.iDForNiceToMeetYou,
-                              Strings.iDForHaveSeen),
+                              widget.valueRemove, Strings.iDForHaveSeen),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.yellow),
@@ -204,7 +169,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                       child: Card(
                         child: InkWell(
                           onTap: () => _incrementCounter(
-                              Strings.iDForNiceToMeetYou, Strings.iDForCanRead),
+                              widget.valueRemove, Strings.iDForCanRead),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -223,8 +188,7 @@ class _NiceToMeetYouState extends State<NiceToMeetYou> {
                       child: Card(
                         child: InkWell(
                           onTap: () => _incrementCounter(
-                              Strings.iDForNiceToMeetYou,
-                              Strings.iDForNiceToMeetYou),
+                              widget.valueRemove, Strings.iDForNiceToMeetYou),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.blue),

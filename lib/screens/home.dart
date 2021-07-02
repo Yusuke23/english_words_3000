@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '0_top_card.dart';
-import '1_canUse_card.dart';
-import '2_canRead_card.dart';
-import '3_haveSeen_card.dart';
-import '4_niceToMeetYou_card.dart';
+import 'card_top.dart';
+import 'card_canUse.dart';
+import 'card_canRead.dart';
+import 'card_haveSeen.dart';
+import 'card_niceToMeetYou.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
