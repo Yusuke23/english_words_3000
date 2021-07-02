@@ -3,12 +3,11 @@ import 'package:english_words_3000/screens/home.dart';
 import 'package:english_words_3000/auth_screen/registration_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:english_words_3000/auth_screen/login_page.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // ここ大事！
-  runApp(ProviderScope(child: MyApp()));
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
