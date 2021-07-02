@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Top extends StatefulWidget {
   @override
@@ -14,13 +13,12 @@ class Top extends StatefulWidget {
 class _TopState extends State<Top> {
   List<dynamic> word = [];
   int indexNumber = 0;
-  final _firestore = FirebaseFirestore.instance; //firestoreに単語を加える.
   //ユーザーのemail取得
   dynamic user;
   String userEmail;
 
   //単語を各Fieldに割り振る
-  void _incrementCounter(String value) async {
+  void incrementCounter(String value) async {
     setState(() {
       if (indexNumber < word.length) {
         indexNumber++;
@@ -35,7 +33,7 @@ class _TopState extends State<Top> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 以下の「counter」がキー名。見つからなければ０を返す
     setState(() {
-      indexNumber = prefs.getInt('counter') ?? 0;
+      indexNumber = prefs.getInt(Strings.SHARED_PREFERENCE_KEY) ?? 0;
     });
   }
 
@@ -43,14 +41,14 @@ class _TopState extends State<Top> {
   _setPrefItems() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 以下の「counter」がキー名。
-    prefs.setInt('counter', indexNumber);
+    prefs.setInt(Strings.SHARED_PREFERENCE_KEY, indexNumber);
   }
 
   void getData() async {
     http.Response response = await http.get(Uri.https(
-        'firebasestorage.googleapis.com',
-        '/v0/b/english-words-3000-73a27.appspot.com/o/communication_english_words3000.json',
-        {'alt': 'media', 'token': 'dcc52d84-7cd9-4bb4-b52f-b66dc02009a3'}));
+        Strings.url,
+        Strings.jsonFile,
+        {Strings.alt: Strings.altValue, Strings.token: Strings.tokenValue}));
     if (response.statusCode == 200 && mounted) {
       String data = response.body;
       setState(() {
@@ -154,7 +152,7 @@ class _TopState extends State<Top> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => _incrementCounter(Strings.iDForCanUse),
+                          onTap: () => incrementCounter(Strings.iDForCanUse),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -162,7 +160,7 @@ class _TopState extends State<Top> {
                             ),
                             child: Center(
                               child: Text(
-                                '使える',
+                                Strings.canUse,
                               ),
                             ),
                           ),
@@ -172,7 +170,7 @@ class _TopState extends State<Top> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => _incrementCounter(Strings
+                          onTap: () => incrementCounter(Strings
                               .iDForHaveSeen), //カウントアップ + firestoreに表示されているカードの単語加える
                           child: Container(
                             decoration: BoxDecoration(
@@ -180,7 +178,7 @@ class _TopState extends State<Top> {
                             ),
                             child: Center(
                               child: Text(
-                                '見たことある',
+                                Strings.haveSeen,
                               ),
                             ),
                           ),
@@ -196,7 +194,7 @@ class _TopState extends State<Top> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => _incrementCounter(Strings.iDForCanRead),
+                          onTap: () => incrementCounter(Strings.iDForCanRead),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -204,7 +202,7 @@ class _TopState extends State<Top> {
                             ),
                             child: Center(
                               child: Text(
-                                '読める',
+                                Strings.canRead,
                               ),
                             ),
                           ),
@@ -215,14 +213,14 @@ class _TopState extends State<Top> {
                       child: Card(
                         child: InkWell(
                           onTap: () =>
-                              _incrementCounter(Strings.iDForNiceToMeetYou),
+                              incrementCounter(Strings.iDForNiceToMeetYou),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.blue),
                             ),
                             child: Center(
                               child: Text(
-                                '初めて',
+                                Strings.niceToMeetYou,
                               ),
                             ),
                           ),
@@ -237,19 +235,5 @@ class _TopState extends State<Top> {
         ),
       ),
     );
-  }
-}
-
-class Post {
-  Post(this.id, this.word, this.wordClass);
-  String id;
-  String word;
-  String wordClass;
-
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'word': word,
-      'wordClass': wordClass,
-    };
   }
 }

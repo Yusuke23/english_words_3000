@@ -66,7 +66,7 @@ class _BaseCardState extends State<BaseCard> {
                         child: widget.data.isEmpty
                             ? Center(
                                 child: Text(
-                                  '空',
+                                  Strings.nothing,
                                   style: TextStyle(
                                     fontSize: 50,
                                     fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class _BaseCardState extends State<BaseCard> {
                                 //カードを振り分け終えると表示される
                                 : Center(
                                     child: Text(
-                                      '空',
+                                      Strings.nothing,
                                       style: TextStyle(
                                         fontSize: 50,
                                         fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class _BaseCardState extends State<BaseCard> {
                             ),
                             child: Center(
                               child: Text(
-                                '使える',
+                                Strings.canUse,
                               ),
                             ),
                           ),
@@ -152,7 +152,7 @@ class _BaseCardState extends State<BaseCard> {
                             ),
                             child: Center(
                               child: Text(
-                                '見たことある',
+                                Strings.haveSeen,
                               ),
                             ),
                           ),
@@ -177,7 +177,7 @@ class _BaseCardState extends State<BaseCard> {
                             ),
                             child: Center(
                               child: Text(
-                                '読める',
+                                Strings.canRead,
                               ),
                             ),
                           ),
@@ -195,7 +195,7 @@ class _BaseCardState extends State<BaseCard> {
                             ),
                             child: Center(
                               child: Text(
-                                '初めて',
+                                Strings.niceToMeetYou,
                               ),
                             ),
                           ),

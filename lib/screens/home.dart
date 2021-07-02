@@ -1,12 +1,13 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:english_words_3000/utilities/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'card_top.dart';
 import 'card_canUse.dart';
 import 'card_canRead.dart';
 import 'card_haveSeen.dart';
 import 'card_niceToMeetYou.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   static const id = 'home';
@@ -47,9 +48,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   void getData() async {
     http.Response response = await http.get(Uri.https(
-        'firebasestorage.googleapis.com',
-        '/v0/b/english-words-3000-73a27.appspot.com/o/communication_english_words3000.json',
-        {'alt': 'media', 'token': 'dcc52d84-7cd9-4bb4-b52f-b66dc02009a3'}));
+        Strings.url,
+        Strings.jsonFile,
+        {Strings.alt: Strings.altValue, Strings.token: Strings.tokenValue}));
     if (response.statusCode == 200 && mounted) {
       String data = response.body;
       setState(() {
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 以下の「counter」がキー名。見つからなければ０を返す
     setState(() {
-      indexNumber = prefs.getInt('counter') ?? 0;
+      indexNumber = prefs.getInt(Strings.SHARED_PREFERENCE_KEY) ?? 0;
     });
   }
 
@@ -80,7 +81,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ? Text('がんばろう！！')
             : Text(
                 '達成度:　${calc(word.length, word.length - indexNumber).toStringAsFixed(2)}%'),
-        //todo タップすると達成度が更新されるようにする。
+        //todo 達成度が更新されるようにする。
       ),
       body: PageView(
           controller: _pageController,
@@ -121,23 +122,23 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         },
         items: [
           BottomNavigationBarItem(
-            label: 'トップ',
+            label: Strings.top,
             icon: Icon(Icons.sentiment_very_satisfied_outlined),
           ),
           BottomNavigationBarItem(
-            label: '使える',
+            label: Strings.canUse,
             icon: Icon(Icons.sentiment_satisfied_outlined),
           ),
           BottomNavigationBarItem(
-            label: '読める',
+            label: Strings.canRead,
             icon: Icon(Icons.sentiment_satisfied_alt_rounded),
           ),
           BottomNavigationBarItem(
-            label: '見たことある',
+            label: Strings.haveSeen,
             icon: Icon(Icons.sentiment_neutral_outlined),
           ),
           BottomNavigationBarItem(
-            label: '初めて',
+            label: Strings.niceToMeetYou,
             icon: Icon(Icons.sentiment_neutral_outlined),
           ),
         ],

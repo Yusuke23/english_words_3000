@@ -16,8 +16,10 @@ class FirebaseStorage {
       await _firestore.collection(Strings.collectionID).doc(userEmail).set({
         value: FieldValue.arrayUnion([
           {
-            'word': '${word[indexNumber - 1][Strings.valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][Strings.valueOfWordClass]}',
+            Strings.valueOfWord:
+                '${word[indexNumber - 1][Strings.valueOfWord]}',
+            Strings.valueOfWordClass:
+                '${word[indexNumber - 1][Strings.valueOfWordClass]}',
           },
         ]),
       });
@@ -26,8 +28,10 @@ class FirebaseStorage {
       await _firestore.collection(Strings.collectionID).doc(userEmail).update({
         value: FieldValue.arrayUnion([
           {
-            'word': '${word[indexNumber - 1][Strings.valueOfWord]}',
-            'wordClass': '${word[indexNumber - 1][Strings.valueOfWordClass]}',
+            Strings.valueOfWord:
+                '${word[indexNumber - 1][Strings.valueOfWord]}',
+            Strings.valueOfWordClass:
+                '${word[indexNumber - 1][Strings.valueOfWordClass]}',
           },
         ]),
       });
