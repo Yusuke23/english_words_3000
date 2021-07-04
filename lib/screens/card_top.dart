@@ -1,72 +1,13 @@
-import 'package:english_words_3000/services/firestorage_helper.dart';
 import 'package:english_words_3000/utilities/strings.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:english_words_3000/view_model/dictionary_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Top extends StatefulWidget {
   @override
   _TopState createState() => _TopState();
 }
 
-class _TopState extends State<Top> {
-  List<dynamic> word = [];
-  int indexNumber = 0;
-  //ユーザーのemail取得
-  dynamic user;
-  String userEmail;
-
-  //単語を各Fieldに割り振る
-  void incrementCounter(String value) async {
-    setState(() {
-      if (indexNumber < word.length) {
-        indexNumber++;
-        _setPrefItems(); //Shared Preferenceに値を保存する。
-      }
-    });
-    FirebaseStorage().addWordData(value, word, indexNumber);
-  }
-
-  // Shared Preferenceに値を保存されているデータを読み込んで_counterにセットする。
-  _getPrefItems() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // 以下の「counter」がキー名。見つからなければ０を返す
-    setState(() {
-      indexNumber = prefs.getInt(Strings.SHARED_PREFERENCE_KEY) ?? 0;
-    });
-  }
-
-  // Shared Preferenceにデータを書き込む
-  _setPrefItems() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // 以下の「counter」がキー名。
-    prefs.setInt(Strings.SHARED_PREFERENCE_KEY, indexNumber);
-  }
-
-  void getData() async {
-    http.Response response = await http.get(Uri.https(
-        Strings.url,
-        Strings.jsonFile,
-        {Strings.alt: Strings.altValue, Strings.token: Strings.tokenValue}));
-    if (response.statusCode == 200 && mounted) {
-      String data = response.body;
-      setState(() {
-        word = jsonDecode(data);
-      });
-    } else {
-      print(response.statusCode);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-    // 初期化時にShared Preferencesに保存している値を読み込む
-    _getPrefItems();
-  }
-
+class _TopState extends DictionaryViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,11 +36,11 @@ class _TopState extends State<Top> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                         ),
-                        child: word.isEmpty
+                        child: dictionary.isEmpty
                             ? Center(
                                 child: CircularProgressIndicator(),
                               )
-                            : indexNumber < word.length
+                            : indexNumber < dictionary.length
                                 ? Column(children: <Widget>[
                                     Expanded(
                                       child: Center(
@@ -109,7 +50,7 @@ class _TopState extends State<Top> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '${word[indexNumber][Strings.valueOfWord]}',
+                                          '${dictionary[indexNumber].word}',
                                           style: TextStyle(
                                             fontSize: 30.0,
                                           ),
@@ -119,7 +60,7 @@ class _TopState extends State<Top> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '(${word[indexNumber][Strings.valueOfWordClass]})',
+                                          '${dictionary[indexNumber].wordClass}',
                                           style: TextStyle(
                                             fontSize: 20.0,
                                           ),

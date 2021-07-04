@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:english_words_3000/utilities/strings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-class Firestore {
+class Firestore extends ChangeNotifier {
   final _firestore = FirebaseFirestore.instance; //firestoreに単語を加える.
   final _auth = FirebaseAuth.instance;
-
   //ユーザーのemail取得
   dynamic user;
   String userEmail;

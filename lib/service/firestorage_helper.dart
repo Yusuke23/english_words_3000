@@ -1,3 +1,4 @@
+import 'package:english_words_3000/model/dictionary.dart';
 import 'package:english_words_3000/utilities/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,17 +10,17 @@ class FirebaseStorage {
   dynamic user;
   String userEmail;
 
-  void addWordData(String value, List<dynamic> word, int indexNumber) async {
+  void addWordData(
+      String value, List<Dictionary> dictionary, int indexNumber) async {
     user = _auth.currentUser;
     userEmail = await user.email;
     if (indexNumber == 1) {
       await _firestore.collection(Strings.collectionID).doc(userEmail).set({
         value: FieldValue.arrayUnion([
           {
-            Strings.valueOfWord:
-                '${word[indexNumber - 1][Strings.valueOfWord]}',
+            Strings.valueOfWord: '${dictionary[indexNumber - 1].word}',
             Strings.valueOfWordClass:
-                '${word[indexNumber - 1][Strings.valueOfWordClass]}',
+                '${dictionary[indexNumber - 1].wordClass}',
           },
         ]),
       });
@@ -28,10 +29,9 @@ class FirebaseStorage {
       await _firestore.collection(Strings.collectionID).doc(userEmail).update({
         value: FieldValue.arrayUnion([
           {
-            Strings.valueOfWord:
-                '${word[indexNumber - 1][Strings.valueOfWord]}',
+            Strings.valueOfWord: '${dictionary[indexNumber - 1].word}',
             Strings.valueOfWordClass:
-                '${word[indexNumber - 1][Strings.valueOfWordClass]}',
+                '${dictionary[indexNumber - 1].wordClass}',
           },
         ]),
       });

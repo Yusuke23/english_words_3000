@@ -1,4 +1,4 @@
-import 'package:english_words_3000/services/firestore_helper.dart';
+import 'package:english_words_3000/service/firestore_helper.dart';
 import 'package:english_words_3000/utilities/strings.dart';
 import 'package:flutter/material.dart';
 
