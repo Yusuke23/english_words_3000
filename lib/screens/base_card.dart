@@ -1,40 +1,19 @@
-import 'package:english_words_3000/service/firestore_helper.dart';
 import 'package:english_words_3000/utilities/strings.dart';
+import 'package:english_words_3000/view_model/word_view_model.dart';
 import 'package:flutter/material.dart';
 
 class BaseCard extends StatefulWidget {
   BaseCard(
-    this.data,
-    this.dataLength,
-    this.indexNumber,
-    this.valueRemove,
+    this.valueField,
   );
 
-  final List<dynamic> data;
-  final int dataLength;
-  int indexNumber;
-  final String valueRemove;
+  final String valueField;
 
   @override
   _BaseCardState createState() => _BaseCardState();
 }
 
-class _BaseCardState extends State<BaseCard> {
-  //ユーザーのemail取得
-  dynamic user;
-  String userEmail;
-
-  //表示する単語を指示 & アップデート
-  void _incrementCounter(String valueRemove, String valueUnion) async {
-    if (widget.indexNumber < widget.dataLength) {
-      setState(() {
-        widget.indexNumber++;
-      });
-    }
-    Firestore().updateWordData(
-        valueRemove, valueUnion, widget.data, widget.indexNumber);
-  }
-
+class _BaseCardState extends WordViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +42,7 @@ class _BaseCardState extends State<BaseCard> {
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.yellow),
                         ),
-                        child: widget.data.isEmpty
+                        child: data.isEmpty
                             ? Center(
                                 child: Text(
                                   Strings.nothing,
@@ -73,7 +52,7 @@ class _BaseCardState extends State<BaseCard> {
                                   ),
                                 ),
                               )
-                            : widget.indexNumber < widget.dataLength
+                            : indexNumber < data.length
                                 ? Column(children: <Widget>[
                                     Expanded(
                                       child: Center(
@@ -83,7 +62,8 @@ class _BaseCardState extends State<BaseCard> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '${widget.data[widget.indexNumber][Strings.valueOfWord]}',
+                                          '${data[indexNumber].word}',
+                                          //'${data[indexNumber][Strings.valueOfWord]}',
                                           style: TextStyle(
                                             fontSize: 30.0,
                                           ),
@@ -93,7 +73,8 @@ class _BaseCardState extends State<BaseCard> {
                                     Expanded(
                                       child: Center(
                                         child: Text(
-                                          '(${widget.data[widget.indexNumber][Strings.valueOfWordClass]})',
+                                          '(${data[indexNumber].wordClass})',
+                                          //'(${data[indexNumber][Strings.valueOfWordClass]})',
                                           style: TextStyle(
                                             fontSize: 20.0,
                                           ),
@@ -125,8 +106,8 @@ class _BaseCardState extends State<BaseCard> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => _incrementCounter(
-                              widget.valueRemove, Strings.iDForCanUse),
+                          onTap: () => incrementCounter(
+                              widget.valueField, Strings.iDForCanUse),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -144,8 +125,8 @@ class _BaseCardState extends State<BaseCard> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => _incrementCounter(
-                              widget.valueRemove, Strings.iDForHaveSeen),
+                          onTap: () => incrementCounter(
+                              widget.valueField, Strings.iDForHaveSeen),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.yellow),
@@ -168,8 +149,8 @@ class _BaseCardState extends State<BaseCard> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => _incrementCounter(
-                              widget.valueRemove, Strings.iDForCanRead),
+                          onTap: () => incrementCounter(
+                              widget.valueField, Strings.iDForCanRead),
                           child: Container(
                             // height: 60,
                             decoration: BoxDecoration(
@@ -187,8 +168,8 @@ class _BaseCardState extends State<BaseCard> {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => _incrementCounter(
-                              widget.valueRemove, Strings.iDForNiceToMeetYou),
+                          onTap: () => incrementCounter(
+                              widget.valueField, Strings.iDForNiceToMeetYou),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.blue),
