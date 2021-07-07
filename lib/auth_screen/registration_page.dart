@@ -1,7 +1,7 @@
 import 'package:english_words_3000/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:english_words_3000/model_auth_screen/model_auth_screen.dart';
+import 'package:english_words_3000/const_auth_screen/const_auth_screen.dart';
 import 'package:english_words_3000/components_in_auth_page/rounded_button.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
