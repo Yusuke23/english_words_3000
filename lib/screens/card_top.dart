@@ -111,8 +111,7 @@ class _TopState extends DictionaryViewModel {
                     Expanded(
                       child: Card(
                         child: InkWell(
-                          onTap: () => incrementCounter(Strings
-                              .iDForHaveSeen), //カウントアップ + firestoreに表示されているカードの単語加える
+                          onTap: () => incrementCounter(Strings.iDForHaveSeen),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.yellow),
