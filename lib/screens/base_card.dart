@@ -34,7 +34,7 @@ class _BaseCardState extends WordViewModel {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        //todo タップすると日本語訳が表示される
+                        //todo タップすると日本語訳が表示される。
                       });
                     },
                     child: Container(
